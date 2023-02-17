@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "tiny-async-poker"
+  },
+  "targets": {
+    "tiny-async-poker": {
+      "hosting": {
+        "tiny-async": [
+          "tiny-async-poker"
+        ]
+      }
+    }
+  }
+}

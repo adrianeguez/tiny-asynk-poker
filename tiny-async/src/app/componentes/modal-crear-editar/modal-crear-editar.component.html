@@ -1,0 +1,10 @@
+<h1>Ingrese los datos</h1>
+<div *ngIf="data.arregloNombres">
+  <p><span *ngFor="let nombre of data.arregloNombres">{{nombre}}, </span></p>
+</div>
+<div *ngIf="data.fields && data.model">
+  <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <button type="submit" mat-raised-button color="primary" >Aceptar</button>
+  </form>
+</div>

@@ -1,0 +1,56 @@
+<h1>Proyectos</h1>
+<button mat-raised-button color="primary" (click)="abrirCrearProyecto()">Crear</button>
+
+<div *ngIf="usuarioFirestore && user">
+  <p>Selecciona un proyecto</p>
+  <form [formGroup]="formFiltrarProyectos">
+    <formly-form [model]="modelFiltrarProyectos" [fields]="fieldsFiltrarProyectos"
+                 [form]="formFiltrarProyectos"></formly-form>
+    <button type="submit" mat-raised-button class="espacio" color="primary" (click)="cargarProyectos(user, true)">
+      Buscar
+    </button>
+  </form>
+
+  <div *ngIf="user">
+    <mat-card [style]="{marginTop:'10px'}" *ngFor="let proyecto of proyectos">
+      <div>
+        <p>
+          <strong>Ir a Sprint :</strong>
+          <a [routerLink]="['/mis-async-pokers', proyecto.id, 'sprint']">
+            {{proyecto.nombre}} - {{proyecto.nombreSprint}}
+          </a>
+        </p>
+      </div>
+      <button mat-raised-button class="espacio" color="primary" (click)="abrirCrearColaborador(proyecto)">Agregar
+        colaborador
+      </button>
+      <div [style]="{marginTop:'10px'}"></div>
+      <div *ngIf="!proyecto.colaboradores || (proyecto.colaboradores && proyecto.colaboradores.length === 0)">
+        <p><strong>Necesita</strong> crear colaboradores</p>
+      </div>
+      <div *ngIf="proyecto.colaboradores && proyecto.colaboradores.length > 0">
+        <h3>Lista colaboradores:</h3>
+        <ul>
+          <li *ngFor="let colaborador of proyecto.colaboradores">
+            <div>
+              {{colaborador}}
+
+              <span (click)="removeItem(proyecto, colaborador)">
+              <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+                x
+              </button>
+            </span>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </mat-card>
+
+    <button *ngIf="proyectos.length > 0 && noHayMasDatos === false" type="button" mat-raised-button class="espacio"
+            color="primary" (click)="cargarProyectos(user)">Cargar mas
+    </button>
+    <p *ngIf="noHayMasDatos" [style]="{textAlign:'center'}">No hay mas datos.</p>
+  </div>
+
+</div>

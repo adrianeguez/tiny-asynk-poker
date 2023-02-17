@@ -1,0 +1,18 @@
+<h1>Sprint Pokers</h1>
+<button mat-raised-button color="primary" (click)="abrirCrearProyecto()">Crear</button>
+<div *ngIf="user">
+  <mat-card [style]="{marginTop:'10px'}" *ngFor="let scrumPoker of scrumPokerVotos | async">
+    <p>
+      <strong>Nombre historia: </strong> <a [routerLink]="['/mis-async-pokers', user.uid, params.id, 'sprint', scrumPoker.id]">
+      {{scrumPoker.nombre.toUpperCase()}}
+    </a>
+    </p>
+    <p><strong>Puntaje acordado: </strong> {{scrumPoker.puntajeAcordado ? scrumPoker.puntajeAcordado : '?'}} </p>
+
+    <button type="button" mat-raised-button class="espacio"
+            color="primary" (click)="abrirAcordarPuntaje(scrumPoker)">
+      Acordar puntaje
+    </button>
+<!--    <p><strong>Historia usuario: </strong> <a [href]="scrumPoker.linkHU">Revisar link</a></p>-->
+  </mat-card>
+</div>

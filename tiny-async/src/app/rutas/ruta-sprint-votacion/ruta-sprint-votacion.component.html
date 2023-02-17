@@ -1,0 +1,16 @@
+<h1>Sprint Votacion</h1>
+<button mat-raised-button color="primary" (click)="abrirCrearVotacion()">Votar usuario</button>
+<div *ngIf="scrumPokerVoto">
+  <p><strong>Nombre: </strong>{{scrumPokerVoto.nombre}}</p>
+  <p><strong>Link: </strong> <a target="_blank" [href]="scrumPokerVoto.linkHU"> VISITAR </a></p>
+  <p><strong>Fecha creacion: </strong>{{scrumPokerVoto.createdAt}}</p>
+  <p><strong>Puntaje acordado: </strong>{{scrumPokerVoto.puntajeAcordado ? scrumPokerVoto.puntajeAcordado : '?'}}</p>
+</div>
+
+<h2>Votos</h2>
+<button mat-raised-button color="primary" (click)="mostrarVoto = !mostrarVoto">Mostrar/Ocultar votos</button>
+<ul>
+  <li *ngFor="let voto of usuariosVotado">
+    {{voto.nombre}} - {{voto.correo}} - {{mostrarVoto ? voto.puntaje : '?'}}
+  </li>
+</ul>
