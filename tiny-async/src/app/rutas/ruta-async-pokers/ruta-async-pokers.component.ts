@@ -52,9 +52,9 @@ export class RutaAsyncPokersComponent implements OnInit {
       key: 'url',
       type: 'input',
       props: {
-        label: 'URL',
-        placeholder: 'URL',
-        description: 'URL',
+        label: 'URL milestone',
+        placeholder: 'URL milestone',
+        description: 'URL milestone',
       },
     },
     {
@@ -242,7 +242,12 @@ export class RutaAsyncPokersComponent implements OnInit {
           .collection(ColeccionesEnum.Users)
           .doc(this.user.uid)
           .collection(ColeccionesEnum.UProyectos)
-          .add({...result, createdAt: serverTimestamp(), nombre: result.nombre.toUpperCase()})
+          .add({
+            ...result,
+            createdAt: serverTimestamp(),
+            nombre: result.nombre.toUpperCase(),
+            correoUsuarioEncargado: this.user.email
+          })
           .then(
             () => this.cargarProyectos(this.user as User)
           )

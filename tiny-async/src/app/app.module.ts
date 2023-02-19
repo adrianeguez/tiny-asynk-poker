@@ -21,6 +21,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {EstaLogeado} from "./can-activate/esta-logeado";
 import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
 
 export function asyncPokerValidator(control: AbstractControl): ValidationErrors | null {
   const isEqual = control.value === 0 ||
@@ -90,7 +91,8 @@ export function asyncPokerValidator(control: AbstractControl): ValidationErrors 
     FormlyMaterialModule,
     MatButtonModule,
     MatDialogModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [ EstaLogeado ],
   bootstrap: [AppComponent]

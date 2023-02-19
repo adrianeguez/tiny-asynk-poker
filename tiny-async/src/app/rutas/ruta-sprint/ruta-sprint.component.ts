@@ -32,22 +32,33 @@ export class RutaSprintComponent implements OnInit {
         required: true,
       },
     },
-    // {
-    //   key: 'linkHU',
-    //   type: 'input',
-    //   props: {
-    //     label: 'URL Historia Usuario',
-    //     placeholder: 'URL Historia Usuario',
-    //     description: 'URL Historia Usuario',
-    //   },
-    // },
+    {
+      key: 'nombreEpica',
+      type: 'input',
+      props: {
+        label: 'Nombre Epica / Modulo',
+        placeholder: 'Nombre Epica',
+        description: 'Nombre Epica',
+      },
+    },
+    {
+      key: 'linkHU',
+      type: 'input',
+      props: {
+        label: 'URL Historia Usuario',
+        placeholder: 'URL Historia Usuario',
+        description: 'URL Historia Usuario',
+        required: true,
+      },
+    },
   ];
   model: {
     nombre: string;
-    // linkHU?: string;
+    nombreEpica?: string;
+    linkHU: string;
   } = {
     nombre: '',
-    // linkHU: '',
+    linkHU: '',
   }
 
   scrumPokerVotos!: Observable<UPSprint[]>;
@@ -101,6 +112,7 @@ cargarProyecto(user: User){
   cargarSprints(user: User) {
     this.model = {
       nombre: '',
+      linkHU: '',
     };
 
     this.scrumPokerVotos = this.angularFirestore
@@ -135,7 +147,8 @@ cargarProyecto(user: User){
 
     dialogRef.afterClosed().subscribe((result: {
       nombre: string;
-      linkHU?: string;
+      nombreEpica?: string;
+      linkHU: string;
     }) => {
       if (this.user && result) {
         let object = {...result, createdAt: serverTimestamp(), respuestasVoto:{}} as UPSprint;

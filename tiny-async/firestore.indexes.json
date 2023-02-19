@@ -1,4 +1,13 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+    "collectionGroup": "u-proyectos",
+    "queryScope": "COLLECTION",
+    "fields": [
+      { "fieldPath": "nombre", "order": "ASCENDING" },
+      { "fieldPath": "createdAt", "order": "DESCENDING" }
+    ]
+  }
+  ],
   "fieldOverrides": []
 }

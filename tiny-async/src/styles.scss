@@ -1,8 +1,97 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-button{
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+button {
   margin-top: 10px !important;
   margin-bottom: 10px !important;;
 }
+
+$colorSuccess: #155724;
+$colorSuccessClaro: #f0fff3;
+.mat-button.mat-success,
+.mat-stroked-button.mat-success {
+  color: $colorSuccess;
+}
+
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color: $colorSuccessClaro;
+}
+
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: $colorSuccessClaro;
+  background-color: $colorSuccess;
+}
+
+.mat-icon-button.mat-success {
+  color: $colorSuccess;
+}
+
+$colorBlue: #152a57;
+$colorBlueClaro: #f0f5ff;
+.mat-button.mat-blue,
+.mat-stroked-button.mat-blue {
+  color: $colorBlue;
+}
+
+.mat-button.mat-blue:hover,
+.mat-stroked-button.mat-blue:hover {
+  background-color: $colorBlueClaro;
+}
+
+.mat-raised-button.mat-blue,
+.mat-flat-button.mat-blue,
+.mat-fab.mat-blue,
+.mat-mini-fab.mat-blue {
+  color: $colorBlueClaro;
+  background-color: $colorBlue;
+}
+
+.mat-icon-button.mat-blue {
+  color: $colorBlue;
+}
+
+
+.texto-grande {
+  font-size: 2rem;
+  padding-top: 16px;
+  line-height: 2.4rem;
+}
+
+.texto-mediano {
+  font-size: 1.5rem;
+  padding-top: 16px;
+  line-height: 1.5rem;
+}
+
+.margin-todo {
+  margin: 15px
+}
+
+.minimo-carta {
+  min-height: 175px;
+}
+.poker {
+  padding: 10px;
+  border-radius: 9px;
+}
+.poker-activo {
+  background-color: #e0deca;
+}
+
+.minimo-votacion {
+  min-height: 60px;
+}
+.minimo-carta-principal{
+  min-height: 470px;}

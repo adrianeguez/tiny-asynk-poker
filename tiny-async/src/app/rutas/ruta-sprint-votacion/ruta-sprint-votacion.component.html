@@ -1,16 +1,78 @@
-<h1>Sprint Votacion</h1>
-<button mat-raised-button color="primary" (click)="abrirCrearVotacion()">Votar usuario</button>
-<div *ngIf="scrumPokerVoto">
-  <p><strong>Nombre: </strong>{{scrumPokerVoto.nombre}}</p>
-  <p><strong>Link: </strong> <a target="_blank" [href]="scrumPokerVoto.linkHU"> VISITAR </a></p>
-  <p><strong>Fecha creacion: </strong>{{scrumPokerVoto.createdAt}}</p>
-  <p><strong>Puntaje acordado: </strong>{{scrumPokerVoto.puntajeAcordado ? scrumPokerVoto.puntajeAcordado : '?'}}</p>
+<h1>Sprint</h1>
+
+<div class="row">
+  <div *ngFor="let scrumPoker of sprints" class="col-sm-4">
+    <mat-card class="margin-todo">
+      <div [class]="scrumPoker?.nombre === scrumPokerVoto?.nombre ? 'poker poker-activo': 'poker'">
+        <div class="minimo-carta">
+          <p>
+            <strong>Nombre Historia: </strong> {{scrumPoker.nombre.toUpperCase()}}
+          </p>
+          <p><strong>Puntaje
+            acordado: </strong> {{scrumPoker.puntajeAcordado ? scrumPoker.puntajeAcordado : '?'}} </p>
+          <div *ngIf="scrumPoker.nombreEpica">
+            <strong>Epica / Modulo: </strong> {{scrumPoker.nombreEpica.toUpperCase()}}
+          </div>
+        </div>
+        <div>
+          <button [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                  color="blue" (click)="cargarSprintIndividual(scrumPoker)">
+            Seleccionar
+            <mat-icon fontIcon="pageview"></mat-icon>
+          </button>
+        </div>
+        <div>
+          <a target="_blank" [href]="scrumPoker.linkHU">
+            <button [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                    color="accent">
+              Visitar Historia Usuario
+              <mat-icon fontIcon="language"></mat-icon>
+            </button>
+          </a>
+        </div>
+      </div>
+    </mat-card>
+  </div>
 </div>
 
-<h2>Votos</h2>
-<button mat-raised-button color="primary" (click)="mostrarVoto = !mostrarVoto">Mostrar/Ocultar votos</button>
-<ul>
-  <li *ngFor="let voto of usuariosVotado">
-    {{voto.nombre}} - {{voto.correo}} - {{mostrarVoto ? voto.puntaje : '?'}}
-  </li>
-</ul>
+
+<div class="row">
+  <div class="col-md-6">
+    <h2>Sprint Votacion</h2>
+    <div *ngIf="scrumPokerVotoMostrar">
+      <p class="texto-mediano"><strong>Nombre: </strong>{{scrumPokerVotoMostrar.nombre}}</p>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <a target="_blank" [href]="scrumPokerVotoMostrar.linkHU">
+          <button [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                  color="accent">
+            Visitar Historia Usuario
+            <mat-icon fontIcon="language"></mat-icon>
+          </button>
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <button [style]="{width:'100%'}" mat-raised-button color="success" (click)="abrirCrearVotacion()">
+          Quiero votar
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h2>Votos</h2>
+    <div class="row">
+      <div class="col-sm-12" *ngFor="let voto of usuariosVotado">
+        <mat-card class="margin-todo">
+          <div class="minimo-votacion">
+            {{voto.nombre}} - {{voto.correo}} - {{mostrarVoto ? voto.puntaje : '?'}}
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="mostrarVoto = !mostrarVoto">Mostrar/Ocultar votos</button>
+    </div>
+  </div>
+</div>
+

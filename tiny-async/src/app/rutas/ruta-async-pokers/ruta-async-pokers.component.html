@@ -1,56 +1,115 @@
 <h1>Proyectos</h1>
-<button mat-raised-button color="primary" (click)="abrirCrearProyecto()">Crear</button>
+<div class="row">
+  <div class="col-sm-9"></div>
+  <div class="col-sm-3">
+    <button [style]="{width:'100%'}" mat-raised-button color="success" (click)="abrirCrearProyecto()">
+      Crear
+      <mat-icon fontIcon="add"></mat-icon>
+    </button>
+  </div>
+</div>
 
-<div *ngIf="usuarioFirestore && user">
+<div *ngIf="usuarioFirestore && user && usuarioFirestore.nombresProyectos.length > 0">
   <p>Selecciona un proyecto</p>
   <form [formGroup]="formFiltrarProyectos">
     <formly-form [model]="modelFiltrarProyectos" [fields]="fieldsFiltrarProyectos"
                  [form]="formFiltrarProyectos"></formly-form>
     <button type="submit" mat-raised-button class="espacio" color="primary" (click)="cargarProyectos(user, true)">
       Buscar
+      <mat-icon fontIcon="search"></mat-icon>
     </button>
   </form>
 
-  <div *ngIf="user">
-    <mat-card [style]="{marginTop:'10px'}" *ngFor="let proyecto of proyectos">
-      <div>
-        <p>
-          <strong>Ir a Sprint :</strong>
-          <a [routerLink]="['/mis-async-pokers', proyecto.id, 'sprint']">
-            {{proyecto.nombre}} - {{proyecto.nombreSprint}}
-          </a>
-        </p>
-      </div>
-      <button mat-raised-button class="espacio" color="primary" (click)="abrirCrearColaborador(proyecto)">Agregar
-        colaborador
-      </button>
-      <div [style]="{marginTop:'10px'}"></div>
-      <div *ngIf="!proyecto.colaboradores || (proyecto.colaboradores && proyecto.colaboradores.length === 0)">
-        <p><strong>Necesita</strong> crear colaboradores</p>
-      </div>
-      <div *ngIf="proyecto.colaboradores && proyecto.colaboradores.length > 0">
-        <h3>Lista colaboradores:</h3>
-        <ul>
-          <li *ngFor="let colaborador of proyecto.colaboradores">
-            <div>
-              {{colaborador}}
-
-              <span (click)="removeItem(proyecto, colaborador)">
-              <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
-                x
-              </button>
-            </span>
+  <div class="row" *ngIf="user">
+    <div class="col-md-4" [style]="{marginTop:'10px'}" *ngFor="let proyecto of proyectos">
+      <div class="margin-todo">
+        <mat-card>
+          <div class="minimo-carta-principal">
+            <p class="texto-mediano">
+              <strong>Nombre: </strong>
+              {{proyecto.nombre}}
+            </p>
+            <p class="texto-mediano" *ngIf="proyecto.codigo">
+              <strong>Codigo: </strong>
+              {{proyecto.codigo}}
+            </p>
+            <p class="texto-mediano">
+              <strong>Sprint: </strong>
+              {{proyecto.nombreSprint}}
+            </p>
+            <p class="texto-mediano">
+              <strong>Correo encargado: </strong>
+              {{proyecto.correoUsuarioEncargado}}
+            </p>
+            <div [style]="{marginTop:'10px'}"></div>
+            <div *ngIf="!proyecto.colaboradores || (proyecto.colaboradores && proyecto.colaboradores.length === 0)">
+              <p><strong>Necesita</strong> crear colaboradores</p>
             </div>
+            <div *ngIf="proyecto.colaboradores && proyecto.colaboradores.length > 0">
+              <h3><strong>Lista colaboradores:</strong></h3>
+              <div class="row">
+                <div class="col-lg-12" *ngFor="let colaborador of proyecto.colaboradores">
+                  <div class="margin-todo">
+                    <mat-card>
 
-          </li>
-        </ul>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          {{colaborador}}
+                        </div>
+
+                        <div class="col-sm-12" >
+                          <div>
+                            <button mat-mini-fab color="warn"
+                                    aria-label="Example icon button with a filter list icon"
+                                    (click)="removeItem(proyecto, colaborador)"
+                            >
+                              x
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <button mat-raised-button class="espacio" color="success" (click)="abrirCrearColaborador(proyecto)">Agregar
+            colaborador
+          </button>
+          <div>
+            <a [routerLink]="['/mis-async-pokers', proyecto.id, 'sprint']">
+              <button mat-raised-button class="espacio" color="blue">
+                Revisar H. Usuario
+                <mat-icon fontIcon="pageview"></mat-icon>
+              </button>
+            </a>
+          </div>
+          <div>
+            <a target="_blank" [href]="proyecto.url">
+              <button mat-raised-button class="espacio" color="accent">
+                Visitar Milestone
+                <mat-icon fontIcon="language"></mat-icon>
+              </button>
+            </a>
+          </div>
+        </mat-card>
       </div>
-    </mat-card>
-
-    <button *ngIf="proyectos.length > 0 && noHayMasDatos === false" type="button" mat-raised-button class="espacio"
-            color="primary" (click)="cargarProyectos(user)">Cargar mas
-    </button>
-    <p *ngIf="noHayMasDatos" [style]="{textAlign:'center'}">No hay mas datos.</p>
+    </div>
   </div>
 
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button [style]="{width:'100%'}" *ngIf="proyectos.length > 0 && noHayMasDatos === false" type="button" mat-raised-button
+              color="primary" (click)="cargarProyectos(user)">
+        Cargar mas
+        <mat-icon fontIcon="manage_search"></mat-icon>
+      </button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+  <br>
+  <p *ngIf="noHayMasDatos" [style]="{textAlign:'center'}">No hay mas datos.</p>
 </div>

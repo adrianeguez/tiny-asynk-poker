@@ -10,6 +10,7 @@ import {ScrumPokerVoto} from "../../interfaces/models/scrum-poker-voto";
 import {FormlyFieldConfig} from "@ngx-formly/core";
 import {ModalCrearEditarComponent} from "../../componentes/modal-crear-editar/modal-crear-editar.component";
 import {MatDialog} from "@angular/material/dialog";
+import {UProyectos} from "../../interfaces/models/u-proyectos";
 
 @Component({
   selector: 'app-ruta-sprint-votacion',
@@ -43,7 +44,10 @@ export class RutaSprintVotacionComponent implements OnInit {
   } = {
     puntaje: 0,
   }
+  sprints: UPSprint[] = [];
   scrumPokerVoto!: UPSprint;
+  scrumPokersubscription: any;
+  scrumPokerVotoMostrar!: UPSprint;
   usuariosVotado: ScrumPokerVoto[] = [];
 
   user?: User;
@@ -68,29 +72,10 @@ export class RutaSprintVotacionComponent implements OnInit {
           this.activatedRoute.params
             .subscribe(
               (data) => {
-                this.params = data as { "id": string; idSprint: string;idUsuario: string; };
+                this.params = {...data} as { "id": string; idSprint: string; idUsuario: string; };
                 if (user) {
-                  this.angularFirestore
-                    .collection(ColeccionesEnum.Users)
-                    .doc(this.params.idUsuario)
-                    .collection(ColeccionesEnum.UProyectos)
-                    .doc(this.params.id)
-                    .collection(ColeccionesEnum.UPSprint)
-                    .doc<UPSprint>(this.params.idSprint)
-                    .valueChanges()
-                    .subscribe(
-                      (value) => {
-                        if (value) {
-                          this.scrumPokerVoto = value;
-                          if(this.scrumPokerVoto.respuestasVoto){
-                            this.usuariosVotado = Object.keys(
-                              this.scrumPokerVoto.respuestasVoto as {[key in string]?: ScrumPokerVoto}
-                            )
-                              .map(rV => this.scrumPokerVoto.respuestasVoto[rV]) as ScrumPokerVoto[];
-                          }
-                        }
-                      }
-                    )
+                  this.cargarSprint();
+                  this.cargarSprintIndividual();
                 }
               }
             );
@@ -99,6 +84,70 @@ export class RutaSprintVotacionComponent implements OnInit {
     );
   }
 
+  cargarSprintIndividual(scrumPoker?: UPSprint) {
+    if (scrumPoker) {
+      this.params.idSprint = scrumPoker.id as string;
+      this.scrumPokersubscription.unsubscribe();
+    }
+    const refInvidiual = this.angularFirestore
+      .collection(ColeccionesEnum.Users)
+      .doc(this.params.idUsuario)
+      .collection(ColeccionesEnum.UProyectos)
+      .doc(this.params.id)
+      .collection(ColeccionesEnum.UPSprint)
+      .doc<UPSprint>(this.params.idSprint);
+    refInvidiual
+      .get()
+      .subscribe(
+        (value) => {
+          if (value) {
+            this.scrumPokerVoto = {
+              ...value.data(),
+              id: value.id
+            } as UPSprint;
+          }
+        }
+      );
+    this.scrumPokersubscription = refInvidiual
+      .valueChanges()
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.scrumPokerVotoMostrar = data;
+            if (this.scrumPokerVotoMostrar.respuestasVoto) {
+              this.usuariosVotado = Object.keys(
+                this.scrumPokerVotoMostrar.respuestasVoto as { [key in string]?: ScrumPokerVoto }
+              )
+                .map(rV => this.scrumPokerVotoMostrar.respuestasVoto[rV]) as ScrumPokerVoto[];
+            }
+          }
+        }
+      );
+
+  }
+
+  cargarSprint() {
+    this.angularFirestore
+      .collection(ColeccionesEnum.Users)
+      .doc(this.params.idUsuario)
+      .collection(ColeccionesEnum.UProyectos)
+      .doc(this.params.id)
+      .collection<UPSprint>(ColeccionesEnum.UPSprint)
+      .get()
+      .subscribe(
+        (sprints) => {
+          console.log(sprints);
+          this.sprints = [
+            ...sprints.docs.map((d) => {
+              return {
+                ...d.data(),
+                id: d.id
+              }
+            })
+          ]
+        }
+      )
+  }
 
   abrirCrearVotacion() {
     const dialogRef = this.dialog.open(ModalCrearEditarComponent, {
@@ -112,6 +161,7 @@ export class RutaSprintVotacionComponent implements OnInit {
       puntaje: number;
     }) => {
       if (this.user && result) {
+        console.log()
         this.angularFirestore
           .collection(ColeccionesEnum.Users)
           .doc(this.params.idUsuario)
@@ -120,13 +170,13 @@ export class RutaSprintVotacionComponent implements OnInit {
           .collection(ColeccionesEnum.UPSprint)
           .doc(this.params.idSprint)
           .update({
-            respuestasVoto:{
-              ...this.scrumPokerVoto.respuestasVoto,
+            respuestasVoto: {
+              ...this.scrumPokerVotoMostrar.respuestasVoto,
               [this.user.email as string]: {
                 correo: this.user.email,
                 nombre: this.user.displayName as string,
                 puntaje: result.puntaje
-              }as ScrumPokerVoto
+              } as ScrumPokerVoto
             }
           })
           .then()

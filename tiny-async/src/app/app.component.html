@@ -1,11 +1,25 @@
-<ul>
-  <li>
-    <a [routerLink]="['/login']">login</a>
-  </li>
-  <li>
-    <a [routerLink]="['/mis-async-pokers']">Mis pokers</a>
-  </li>
-</ul>
-<div [style]="{marginLeft:'10px', marginRight:'10px', paddingBottom: '50px'}">
-  <router-outlet></router-outlet>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <a [routerLink]="['/login']">
+        <button [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                color="warn">
+          Login / Cuenta
+          <mat-icon fontIcon="person"></mat-icon>
+        </button>
+      </a>
+    </div>
+    <div class="col-md-6">
+      <a [routerLink]="['/mis-async-pokers']" *ngIf="logeado">
+        <button [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                color="blue">
+          Mis async pokers
+          <mat-icon fontIcon="folder_copy"></mat-icon>
+        </button>
+      </a>
+    </div>
+  </div>
+  <div [style]="{marginLeft:'10px', marginRight:'10px', paddingBottom: '50px'}">
+    <router-outlet></router-outlet>
+  </div>
 </div>

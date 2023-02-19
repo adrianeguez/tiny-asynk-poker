@@ -5,6 +5,9 @@
 <div *ngIf="data.fields && data.model">
   <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-    <button type="submit" mat-raised-button color="primary" >Aceptar</button>
+    <button type="submit"
+            mat-raised-button color="primary"
+            [disabled]="form.invalid"
+    >Aceptar</button>
   </form>
 </div>

@@ -1,18 +1,61 @@
-<h1>Sprint Pokers</h1>
-<button mat-raised-button color="primary" (click)="abrirCrearProyecto()">Crear</button>
-<div *ngIf="user">
-  <mat-card [style]="{marginTop:'10px'}" *ngFor="let scrumPoker of scrumPokerVotos | async">
-    <p>
-      <strong>Nombre historia: </strong> <a [routerLink]="['/mis-async-pokers', user.uid, params.id, 'sprint', scrumPoker.id]">
-      {{scrumPoker.nombre.toUpperCase()}}
-    </a>
-    </p>
-    <p><strong>Puntaje acordado: </strong> {{scrumPoker.puntajeAcordado ? scrumPoker.puntajeAcordado : '?'}} </p>
-
-    <button type="button" mat-raised-button class="espacio"
-            color="primary" (click)="abrirAcordarPuntaje(scrumPoker)">
-      Acordar puntaje
+<h1>Sprint Pokers</h1><div class="row">
+  <div class="col-sm-9"></div>
+  <div class="col-sm-3">
+    <button [style]="{width:'100%'}" mat-raised-button color="success" (click)="abrirCrearProyecto()">
+      Crear
+      <mat-icon fontIcon="add"></mat-icon>
     </button>
-<!--    <p><strong>Historia usuario: </strong> <a [href]="scrumPoker.linkHU">Revisar link</a></p>-->
-  </mat-card>
+  </div>
+</div>
+<div *ngIf="user">
+  <div class="row">
+    <div class="col-md-6" *ngFor="let scrumPoker of scrumPokerVotos | async">
+      <div class="margin-todo">
+        <mat-card [style]="{marginTop:'10px'}">
+          <div class="minimo-carta">
+            <p>
+              <strong>Nombre Historia: </strong> {{scrumPoker.nombre.toUpperCase()}}
+            </p>
+            <p ><strong>Puntaje
+              acordado: </strong> {{scrumPoker.puntajeAcordado ? scrumPoker.puntajeAcordado : '?'}} </p>
+            <div *ngIf="scrumPoker.nombreEpica">
+              <strong>Epica / Modulo: </strong> {{scrumPoker.nombreEpica.toUpperCase()}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div>
+                <a [routerLink]="['/mis-async-pokers', user.uid, params.id, 'sprint', scrumPoker.id]">
+                  <button  [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                          color="blue">
+                    Discutir
+                    <mat-icon fontIcon="pageview"></mat-icon>
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div class="col-sm-6">
+
+              <div>
+                <a target="_blank" [href]="scrumPoker.linkHU">
+                  <button [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                          color="accent">
+                    Visitar Historia Usuario
+                    <mat-icon fontIcon="language"></mat-icon>
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <button [style]="{width:'100%'}" type="button" mat-raised-button class="espacio"
+                      color="success" (click)="abrirAcordarPuntaje(scrumPoker)">
+                Acordar puntaje
+                <mat-icon fontIcon="sync"></mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>
